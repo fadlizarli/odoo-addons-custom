@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="pos_escpos_webusb.WebUSBStatus">
+        <button class="oe_status btn btn-light pos-webusb-status-btn d-flex align-items-center"
+                t-on-click="onClick"
+                t-att-title="webusbState.isConnected ? 'Printer USB: ' + webusbState.deviceName + ' (Terhubung)' : 'Printer USB: Belum Terhubung (Klik untuk menghubungkan)'">
+            <i class="bi bi-printer fs-5"
+               t-att-class="webusbState.isConnected ? 'text-success' : 'text-danger'"/>
+            <span class="badge rounded-pill ms-1"
+                  t-att-class="webusbState.isConnected ? 'text-bg-success' : 'text-bg-secondary'">
+                USB
+            </span>
+        </button>
+    </t>
+
+</templates>

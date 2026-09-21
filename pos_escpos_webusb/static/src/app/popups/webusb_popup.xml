@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="pos_escpos_webusb.WebUSBPopup">
+        <div class="popup popup-webusb">
+            <div class="modal-header">
+                <h4 class="modal-title title drag-handle d-flex align-items-center gap-2">
+                    <i class="bi bi-printer text-primary fs-5" />
+                    <t t-esc="props.title" />
+                </h4>
+            </div>
+            <main class="modal-body p-4 text-start">
+                <!-- Browser Support Warning -->
+                <div t-if="!webusbState.isSupported" class="alert alert-danger mb-3">
+                    <i class="bi bi-exclamation-triangle-fill me-2" />
+                    <strong>Browser Tidak Mendukung WebUSB!</strong>
+                    <p class="mb-0 mt-1 small">
+                        Fitur WebUSB mewajibkan browser Chromium (Google Chrome, Microsoft Edge) dan harus diakses melalui <strong>HTTPS</strong> atau <strong>localhost</strong>.
+                    </p>
+                </div>
+
+                <!-- Connection Status Banner -->
+                <div class="d-flex align-items-center justify-content-between p-3 rounded mb-3"
+                     t-att-class="webusbState.isConnected ? 'bg-success-subtle border border-success' : 'bg-light border'">
+                    <div>
+                        <div class="fw-bold">
+                            Status: 
+                            <span t-if="webusbState.isConnected" class="text-success">
+                                <i class="bi bi-check-circle-fill me-1"/> Terhubung
+                            </span>
+                            <span t-else="" class="text-muted">
+                                <i class="bi bi-x-circle-fill me-1"/> Belum Terhubung
+                            </span>
+                        </div>
+                        <div t-if="webusbState.isConnected" class="small text-muted mt-1">
+                            Perangkat: <strong t-esc="webusbState.deviceName"/>
+                            <span t-if="webusbState.vendorId"> (VID: <t t-esc="webusbState.vendorId.toString(16).toUpperCase()"/>)</span>
+                        </div>
+                        <div t-else="" class="small text-muted mt-1">
+                            Klik tombol di bawah untuk memilih printer USB (misal: <strong>Iware XS-80</strong>).
+                        </div>
+                    </div>
+                    <div>
+                        <i class="bi bi-usb-symbol display-6"
+                           t-att-class="webusbState.isConnected ? 'text-success' : 'text-secondary'"/>
+                    </div>
+                </div>
+
+                <!-- Feedback Alert -->
+                <div t-if="state.feedback"
+                     class="alert alert-dismissible mb-3 py-2 px-3 small"
+                     t-att-class="'alert-' + state.feedbackType">
+                    <t t-esc="state.feedback"/>
+                </div>
+
+                <!-- Actions -->
+                <div class="d-flex flex-column gap-2 mt-3">
+                    <button t-if="!webusbState.isConnected"
+                            class="btn btn-primary d-flex align-items-center justify-content-center gap-2 py-2"
+                            t-att-disabled="state.loading || !webusbState.isSupported"
+                            t-on-click="onConnectPrinter">
+                        <i class="bi bi-usb-plug-fill" />
+                        <span>Pilih &amp; Hubungkan Printer USB</span>
+                    </button>
+
+                    <div t-if="webusbState.isConnected" class="d-flex gap-2">
+                        <button class="btn btn-outline-primary flex-grow-1 d-flex align-items-center justify-content-center gap-2 py-2"
+                                t-att-disabled="state.loading"
+                                t-on-click="onTestPrint">
+                            <i class="bi bi-printer" />
+                            <span>Test Print Nota</span>
+                        </button>
+                        <button class="btn btn-outline-secondary flex-grow-1 d-flex align-items-center justify-content-center gap-2 py-2"
+                                t-att-disabled="state.loading"
+                                t-on-click="onTestCashbox">
+                            <i class="bi bi-cash-stack" />
+                            <span>Test Laci Kasir</span>
+                        </button>
+                    </div>
+
+                    <button t-if="webusbState.isConnected"
+                            class="btn btn-outline-danger d-flex align-items-center justify-content-center gap-2 py-1 mt-1 small"
+                            t-att-disabled="state.loading"
+                            t-on-click="onDisconnectPrinter">
+                        <i class="bi bi-slash-circle" />
+                        <span>Putuskan Koneksi</span>
+                    </button>
+                </div>
+
+                <!-- Technical Hint -->
+                <div class="mt-4 pt-3 border-top text-muted small">
+                    <div class="fw-semibold mb-1">
+                        <i class="bi bi-lightbulb-fill text-warning me-1" />
+                        Tips Printer Iware XS 80:
+                    </div>
+                    <ul class="ps-3 mb-0" style="font-size: 0.85rem;">
+                        <li>Pastikan kabel USB printer terhubung ke komputer/laptop kasir.</li>
+                        <li>Gunakan ukuran kertas <strong>80mm</strong> di pengaturan POS.</li>
+                        <li>Setelah pertama kali dihubungkan, browser akan mengingat printer dan otomatis terhubung pada sesi kasir berikutnya.</li>
+                    </ul>
+                </div>
+            </main>
+            <footer class="footer modal-footer">
+                <button class="btn btn-secondary px-4" t-on-click="cancel">
+                    <t t-esc="props.closeText" />
+                </button>
+            </footer>
+        </div>
+    </t>
+
+</templates>
