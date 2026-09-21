@@ -4,7 +4,10 @@
     'version': '17.0.1.0.0',
     'category': 'Point of Sale',
     'summary': 'Cetak Langsung Struk Kasir Thermal ESC/POS (80mm/58mm) via WebUSB Browser Tanpa IoT Box',
+    'price': 10,
+    'currency': 'USD', 
     'description': """
+    
 ======================================================
 POS ESC/POS WebUSB Direct Thermal Printing (Odoo 17 CE)
 ======================================================
@@ -35,7 +38,7 @@ Fitur Utama:
    - Jika printer USB dicabut/mati, sistem memberikan notifikasi ramah dan opsi mencetak
      lewat dialog cetak browser biasa agar transaksi kasir tidak terganggu.
     """,
-    'author': 'Antigravity',
+    'author': 'Fadli',
     'license': 'LGPL-3',
     'depends': ['point_of_sale'],
     'data': [
